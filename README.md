@@ -33,13 +33,13 @@ $mkdir 01
 
 <img width="260" alt="스크린샷 2024-05-05 오후 8 30 12" src="https://github.com/ghdcksgml1/webflux-coroutines-file-move/assets/79779676/09c03c63-b7bf-4e13-9b35-ee324c70758c">
 
-`약 6GB의 파일을 단건으로 4,000개 옮기는 작업`
+`약 6GB의 파일을 단건으로 2,000개 옮기는 작업`
 
 <br>
 
 |데이터 개수|Blocking Time|
 |------|---|
-|4,000 개|설정 안함|
+|2,000 개|설정 안함|
 
 |종류|Running Time|
 |------|---|
@@ -50,7 +50,7 @@ $mkdir 01
 
 |데이터 개수|Blocking Time|
 |------|---|
-|4,000 개|10 (ms)|
+|2,000 개|10 (ms)|
 
 |종류|Running Time|
 |------|---|
@@ -61,11 +61,11 @@ $mkdir 01
 
 |데이터 개수|Blocking Time|
 |------|---|
-|4,000 개|1000 (ms)|
+|2,000 개|1000 (ms)|
 
 |종류|Running Time|
 |------|---|
-|webflux + blocking|1초씩 걸려서 4,000(s)로 추정|
+|webflux + blocking|1초씩 걸려서 2,000(s)로 추정|
 |webflux + coroutine async|31(s) 574(ms)|
 
 

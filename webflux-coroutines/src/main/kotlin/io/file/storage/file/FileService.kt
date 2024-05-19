@@ -2,9 +2,9 @@ package io.file.storage.file
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.channelFlow
-import kotlinx.coroutines.flow.flow
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.nio.file.Path
@@ -30,10 +30,9 @@ class FileService(
         val fromFilePath = FilePath(fromPath)
         val toFilePath = FilePath(toPath)
 
-        val validateFromPath = async { verifyExistsDirectoryPath(fromPath) }
-        val validateToPath = async { verifyExistsDirectoryPath(toPath) }
-        validateFromPath.await()
-        validateToPath.await()
+        val validateFromPathDeferred = async { verifyExistsDirectoryPath(fromPath) }
+        val validateToPathDeferred = async { verifyExistsDirectoryPath(toPath) }
+        awaitAll(validateFromPathDeferred, validateToPathDeferred)
 
         fileHelper.moveFile(FileMoveCommand(fromFilePath, toFilePath))
     }
@@ -42,10 +41,9 @@ class FileService(
         val fromDirectory = Path(request.fromDirectory)
         val toDirectory = Path(request.toDirectory)
 
-        val validateFromDirectory = async { verifyExistsDirectoryPath(fromDirectory) }
-        val validateToDirectory = async { verifyExistsDirectoryPath(toDirectory) }
-        validateFromDirectory.await()
-        validateToDirectory.await()
+        val validateFromDirectoryDeferred = async { verifyExistsDirectoryPath(fromDirectory) }
+        val validateToDirectoryDeferred = async { verifyExistsDirectoryPath(toDirectory) }
+        awaitAll(validateFromDirectoryDeferred, validateToDirectoryDeferred)
 
         channelFlow {
             val filesPathInDirectory = fromDirectory.listDirectoryEntries()
